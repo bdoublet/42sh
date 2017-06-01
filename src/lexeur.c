@@ -1,5 +1,5 @@
 #include "structure.h"
-#define DELIMITER " \t\r\n"
+#define DELIMITER " \t\r\n\a"
 
 char** lexeur(char* command)
 {
@@ -7,6 +7,9 @@ char** lexeur(char* command)
 	unsigned int pos = 0;
 	char** token = malloc(sizeof (char*) * buffersize);
 	char* element = NULL;
+
+  if (!command)
+    return 0;
 
 	if (!token)
 	{
@@ -20,7 +23,7 @@ char** lexeur(char* command)
     ** it replace the character delimiter by NULL.
     */
     element = strtok(command, DELIMITER);
-    while (token != NULL)
+    while (element != NULL)
     {
       token[pos] = element;
       pos++;
@@ -41,7 +44,7 @@ char** lexeur(char* command)
       ** next token thanks to NULL which is passed as argument.
       ** Indeed, strtok maintains a static pointer to it previous passed string
       */
-      element= strtok(NULL, DELIMITER);
+      element = strtok(NULL, DELIMITER);
     }
     token[pos] = NULL;
     return token;

@@ -100,7 +100,11 @@ int main (int argc, char** argv)
       varenv->norc = 1;
     if (!strcmp(argv[i], "-c"))
     {
-      strcpy(argv[i + 1], arg);
+      for (int j = i + 1; j < argc; j++)
+      {
+        strcat(arg, argv[j]);
+        strcat(arg, " ");
+      }
       lexeur(arg);
       return 0;
     }
