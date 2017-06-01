@@ -13,15 +13,25 @@ void FreeMal(void* ptr1, void* ptr2, void* ptr3)
 void ShLoop(void)
 {
   char* line = malloc(sizeof (char) * 256);
-  if (!line)
-    fprintf(stderr, "Fail Malloc\n");
+  char path[512];
+  struct passwd* id;
 
-  do 
+  if (!line)
   {
-    printf("42sh> ");
-    line = ReadLine();
+      fprintf(stderr, "Fail Malloc\n");
+      exit(-1);
   }
-  while (strcmp(line, "exit\n"));
+  do {
+    if (getcwd(path, 512) == NULL)
+    {
+      fprintf(stderr, "cwd error\n");
+      exit(-1);
+    }
+    id = getpwuid(geteuid());
+    printf("%s@%s# ",id->pw_name, path);
+
+    line = ReadLine();
+  } while (strcmp(line, "exit\n"));
   FreeMal(line, NULL, NULL);
 }
 
@@ -71,7 +81,10 @@ int main (int argc, char** argv)
   char* arg = malloc(sizeof (char) * 256);
 
   if (!arg)
-    fprintf(stderr, "Fail Malloc\n");
+  {
+      fprintf(stderr, "Fail Malloc\n");
+      exit(-1);
+  }
 
 	for (int i = 1; i < argc; i++)
   {
@@ -88,7 +101,7 @@ int main (int argc, char** argv)
     if (!strcmp(argv[i], "-c"))
     {
       strcpy(argv[i + 1], arg);
-      //lexeur(arg);
+      lexeur(arg);
       return 0;
     }
       //Read commands from the command_string operand. Set the value of special
