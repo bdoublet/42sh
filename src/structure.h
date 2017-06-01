@@ -1,12 +1,14 @@
-#define _GNU_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#ifndef STRUCTURE_H
+	#define _GNU_SOURCE
+	#define SH_VERSION 0.5
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+	#include <unistd.h>
+#endif
 
 struct VarEnv
 {
-	double version;
 	int ast_printer;
 	int norc;
 };
